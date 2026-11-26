@@ -2,7 +2,7 @@
 
 Protótipo de jogo VR de alquimia para Meta Quest. O jogador interpreta um alquimista que descobre receitas por observação e experimentação: pega ingredientes físicos, passa por processos alquímicos em tempo real, desenha símbolos e sigilos, posiciona componentes e conjura reações. Erros não são apenas falhas: viram componentes novos, pistas e, às vezes, caos mágico que precisa ser cuidado.
 
-> **Status atual:** documentação de conceito, mecânicas, arquitetura e plano do protótipo. Ainda não há scripts de gameplay próprios no repositório. Este README e a pasta `Docs/` são a fonte de verdade para os próximos agentes e para a implementação.
+> **Status atual:** documentação de conceito, mecânicas, arquitetura e plano do protótipo; scripts da Fase 0+1 de núcleo, itens, estantes e bandeja. A cena, os prefabs e os assets de dados são montados pelo usuário no Unity seguindo `Docs/PHASE_0_1_GUIDE.md`. Este README e a pasta `Docs/` são a fonte de verdade para os próximos agentes e para a implementação.
 
 ## Stack
 
@@ -41,6 +41,7 @@ Leia nesta ordem:
 4. [`Docs/TECHNICAL_ARCHITECTURE.md`](Docs/TECHNICAL_ARCHITECTURE.md) — modelo de dados, classes, fluxos e estrutura de pastas.
 5. [`Docs/PROTOTYPE_PLAN.md`](Docs/PROTOTYPE_PLAN.md) — fases, escopo, simplificações e critérios de teste.
 6. [`Docs/DESIGN_DECISIONS.md`](Docs/DESIGN_DECISIONS.md) — decisões registradas do Q&A, alternativas descartadas e questões em aberto.
+7. [`Docs/PHASE_0_1_GUIDE.md`](Docs/PHASE_0_1_GUIDE.md) — guia de montagem da primeira fatia (Fase 0 + Fase 1).
 
 ## Estrutura do repositório
 
@@ -52,6 +53,7 @@ Assets/
   Samples/                    # amostras dos pacotes XR; não alterar sem pedido
   VRTemplateAssets/           # assets do template; reutilizar com cuidado
   XR/ XRI/                    # configurações de XR e XR Interaction Toolkit
+  FullironAlchemist/          # scripts, dados, prefabs e cena do projeto
 Docs/                         # documentação de design, mecânicas e arquitetura
 Packages/                     # manifesto de pacotes Unity
 ProjectSettings/              # configurações do projeto

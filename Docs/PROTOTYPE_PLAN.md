@@ -57,8 +57,9 @@ O protótipo não precisa de arte final, áudio definitivo, puzzles definitivos,
 **Agente entrega:**
 
 - Enums, ScriptableObjects e `AlchemyDatabase`.
-- `AlchemicalItem`, `ComponentVisuals`, `ShelfRow`, `ComponentTray`, `PrototypeLog`.
+- `AlchemicalItem`, `ComponentVisuals`, `ItemLabel`, `ShelfRow`, `ComponentTray`, `PrototypeLog`.
 - Guia de criação de componentes-base, componentes processados demo e prefab de item.
+- Guia detalhado: `Docs/PHASE_0_1_GUIDE.md`.
 
 **Usuário monta:**
 

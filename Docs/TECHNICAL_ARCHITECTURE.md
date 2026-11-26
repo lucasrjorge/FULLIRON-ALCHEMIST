@@ -35,6 +35,7 @@ Assets/FullironAlchemist/
       AlchemicalComponent.cs
       AlchemicalItem.cs
       ComponentVisuals.cs
+      ItemLabel.cs
       ProcessHistory.cs
       ProcessingProfile.cs
       ProcessingOutcome.cs

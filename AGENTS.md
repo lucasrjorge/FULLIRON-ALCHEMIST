@@ -10,6 +10,7 @@ Guia de entrada para agentes que vão implementar o FULLIRON ALCHEMIST. Leia est
 4. `Docs/TECHNICAL_ARCHITECTURE.md` — modelo de dados, classes, fluxos e estrutura de pastas.
 5. `Docs/PROTOTYPE_PLAN.md` — fases, escopo, simplificações e critérios de teste.
 6. `Docs/DESIGN_DECISIONS.md` — decisões do Q&A, alternativas descartadas e questões em aberto.
+7. `Docs/PHASE_0_1_GUIDE.md` — guia de montagem da Fase 0+1 (scripts, cena, prefabs e assets).
 
 ## Fatos do projeto
 
@@ -18,7 +19,7 @@ Guia de entrada para agentes que vão implementar o FULLIRON ALCHEMIST. Leia est
 - Interação do protótipo: **controles VR**. Não implementar hand tracking agora.
 - `Assets/Scenes/BasicScene.unity` já tem XR Origin (XR Rig) do Starter Assets, XR Interaction Manager, EventSystem e chão com TeleportationArea.
 - `Assets/Scenes/SampleScene.unity` é o tutorial original do template. **Não alterar.**
-- Ainda não existe código de gameplay próprio; a implementação deve começar em `Assets/FullironAlchemist/`.
+- A implementação começou em `Assets/FullironAlchemist/` com os scripts da Fase 0+1 (núcleo, itens, estantes, bandeja e log). A cena, os prefabs e os assets de dados são montados pelo usuário no Unity seguindo `Docs/PHASE_0_1_GUIDE.md`.
 - O projeto usa o novo Input System e não tem assembly definitions próprias nesta fase. O código novo deve compilar em `Assembly-CSharp`.
 - O ambiente do agente pode não ter Unity nem `Library`; não assuma que consegue compilar ou rodar Play Mode.
 
