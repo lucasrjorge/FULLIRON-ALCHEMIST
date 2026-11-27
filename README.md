@@ -13,6 +13,15 @@ Protótipo de jogo VR de alquimia para Meta Quest. O jogador interpreta um alqui
 - **Alvo principal:** Meta Quest standalone (Android/OpenXR, ARM64, IL2CPP, SDK 34)
 - **Interação do protótipo:** controles VR; hand tracking fica para depois
 
+## Demo web (GitHub Pages)
+
+Para apresentar o progresso sem depender de Unity, o repositório inclui uma reimplementação web estática da fatia atual em [`web/`](web/): Three.js + HTML/CSS/JS puro, sem build. Ela cobre Calcinatio, Mesa do Símbolo, desenho/conjuração e Grimório com persistência em `localStorage`.
+
+- **Local:** `python -m http.server 8000 --directory web` e abra `http://localhost:8000/`.
+- **Deploy:** o workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) publica a pasta `web/` no GitHub Pages. Em **Settings > Pages**, use **Source: GitHub Actions**. Se preferir publicar pela branch, o `index.html` da raiz redireciona para `web/`.
+
+A demo web é um recorte de apresentação, não substitui a implementação VR em Unity.
+
 ## Como abrir e testar
 
 1. Abra o projeto no Unity Hub com a versão **6000.3.8f1**.

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FULLIRON ALCHEMIST — Protótipo Web</title>
+  <meta name="description" content="Protótipo web do FULLIRON ALCHEMIST: Calcinatio, Mesa do Símbolo e Grimório em Three.js." />
+  <link rel="icon" href="data:," />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="scene" aria-label="Laboratório de alquimia em 3D"></canvas>
+    <div id="vignette"></div>
+
+    <header id="topbar">
+      <div class="brand">
+        <span class="brand-sigil">☿</span>
+        <div class="brand-text">
+          <h1>FULLIRON <span>ALCHEMIST</span></h1>
+          <p>Protótipo web · Calcinatio · Mesa do Símbolo · Grimório</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span class="chip" id="chipDiscoveries">Descobertas 0/0</span>
+        <span class="chip chip-muted" id="chipRecipes">Reações 0/1</span>
+        <button class="top-btn" data-open="grimoire">Grimório</button>
+        <button class="top-btn" data-open="howto">Como jogar</button>
+        <button class="top-btn" data-open="about">Sobre</button>
+        <button class="top-btn danger" id="btnReset">Reset</button>
+      </div>
+    </header>
+
+    <aside id="stationPanel" aria-live="polite">
+      <div class="panel-head">
+        <span id="stationName">Laboratório</span>
+        <span class="panel-tag" id="stationTag">sandbox</span>
+      </div>
+      <div id="stationBody"></div>
+    </aside>
+
+    <div id="logPanel">
+      <h2>Registro do alquimista</h2>
+      <div id="logList"></div>
+    </div>
+
+    <div id="selectionBar" class="hidden">
+      <div class="sel-info">
+        <span class="sel-dot" id="selDot"></span>
+        <div class="sel-copy">
+          <strong id="selName">—</strong>
+          <small id="selMeta">—</small>
+        </div>
+      </div>
+      <div class="sel-actions" id="selActions"></div>
+      <button class="sel-clear" id="selClear" title="Deselecionar">×</button>
+    </div>
+
+    <div id="hint">Selecione um ingrediente na estante à esquerda.</div>
+    <div id="tooltip" class="hidden"></div>
+    <div id="banner" class="hidden"></div>
+    <div id="flash"></div>
+
+    <div class="modal open" id="modal-intro">
+      <div class="modal-card intro-card">
+        <div class="intro-glyph">☿</div>
+        <p class="eyebrow">Protótipo jogável · Fase 0+1</p>
+        <h2>FULLIRON ALCHEMIST</h2>
+        <p class="intro-lead">Um sandbox de alquimia em VR, agora apresentável direto no navegador. Pegue ingredientes físicos, calcule a chama, desenhe o símbolo e conjure.</p>
+        <div class="intro-grid">
+          <div><strong>Calcinatio</strong><span>Fogo em tempo real, estágios e resíduos de Terra.</span></div>
+          <div><strong>Mesa do Símbolo</strong><span>Âncoras dos elementos, desenho livre e conjuração.</span></div>
+          <div><strong>Grimório</strong><span>Descobertas, falhas e persistência local.</span></div>
+        </div>
+        <div class="intro-actions">
+          <button class="btn primary big" data-close>Entrar no laboratório</button>
+          <button class="btn ghost big" data-open="howto">Ver roteiro demo</button>
+        </div>
+        <p class="intro-foot">Port web em Three.js. Sem Unity, sem build, hospedado no GitHub Pages.</p>
+      </div>
+    </div>
+
+    <div class="modal" id="modal-howto">
+      <div class="modal-card">
+        <button class="modal-close" data-close>×</button>
+        <p class="eyebrow">Guia rápido</p>
+        <h2>Como jogar</h2>
+        <ol class="steps">
+          <li><strong>Pegue um ingrediente.</strong> Clique em uma esfera na estante à esquerda. O nome aparece no hover e na barra de seleção.</li>
+          <li><strong>Coloque no alvo.</strong> Com o item selecionado, clique no cadinho da Calcinatio ou em uma âncora da Mesa do Símbolo. Também há atalhos na barra inferior.</li>
+          <li><strong>Calcine o Enxofre.</strong> No painel da Calcinatio, pressione <em>BOMBEAR</em> para subir a chama e <em>SELAR</em> no estágio desejado. A chama decai sozinha.</li>
+          <li><strong>Monte a receita.</strong> Ignis recebe <em>Enxofre Calcinado</em>; Terra recebe <em>Sal</em>; Aqua recebe <em>Orvalho</em>.</li>
+          <li><strong>Desenhe e conjure.</strong> Abra a Mesa do Símbolo, trace o símbolo conectando as âncoras e pressione <em>Conjurar</em>. O desenho é validado antes da reação.</li>
+        </ol>
+        <div class="notice">
+          <strong>Receita demo:</strong> Ouro = Enxofre Calcinado (Ignis) + Sal (Terra) + Orvalho (Aqua), com o símbolo de Ouro desenhado na mesa.
+        </div>
+        <p class="small">Falhas de reação registram a tentativa no Grimório e podem distorcer a sala por alguns segundos. Desenhos inválidos não consomem nada: a magia simplesmente não se concentra.</p>
+      </div>
+    </div>
+
+    <div class="modal" id="modal-about">
+      <div class="modal-card">
+        <button class="modal-close" data-close>×</button>
+        <p class="eyebrow">Sobre</p>
+        <h2>O que está nesta fatia</h2>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>Protótipo original</h3>
+            <p>Unity 6000.3.8f1, URP, XR Interaction Toolkit e Meta Quest. A fatia vertical implementa Calcinatio, Mesa do Símbolo e Grimório com assets provisórios.</p>
+          </div>
+          <div class="about-card">
+            <h3>Port web</h3>
+            <p>Three.js + HTML/CSS/JS puro, sem build. O estado do Grimório fica no <code>localStorage</code> do navegador. Serve para apresentar o progresso, não substitui o projeto VR.</p>
+          </div>
+          <div class="about-card">
+            <h3>Simulação</h3>
+            <p>Calor máximo 100, ganho 15 por bombeada, decaimento contínuo e exposição por tempo. Estágios: Cru → Calcinado → Supercalcinado → Cinza. Resíduo fraco/forte conforme a chama.</p>
+          </div>
+          <div class="about-card">
+            <h3>Próximos passos</h3>
+            <p>Dissolutio, Sublimatio, validação geométrica mais rígida do desenho, gesto de prece, perfis de falha completos e integração LAYA.</p>
+          </div>
+        </div>
+        <div class="notice">
+          <strong>Dica de apresentação:</strong> use o roteiro demo do botão “Como jogar”. Em menos de um minuto dá para mostrar a transformação do Enxofre, a reação e o Grimório sendo preenchido.
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="modal-grimoire">
+      <div class="modal-card grimoire-card">
+        <button class="modal-close" data-close>×</button>
+        <div id="grimoireContent"></div>
+      </div>
+    </div>
+
+    <div class="modal drawing-modal" id="modal-drawing">
+      <div class="drawing-card">
+        <div class="drawing-head">
+          <div>
+            <p class="eyebrow">Mesa do Símbolo</p>
+            <h2>Desenhe e conjure</h2>
+            <p class="drawing-sub">Trace o símbolo principal conectando as âncoras e marque os sigilos de <b>Aqua</b>, <b>Ignis</b> e <b>Terra</b>.</p>
+          </div>
+          <button class="modal-close" id="closeDrawing" title="Fechar">×</button>
+        </div>
+        <div class="placement-chips" id="drawingChips"></div>
+        <div class="canvas-wrap">
+          <canvas id="drawingCanvas" width="1000" height="660"></canvas>
+          <div class="canvas-corner tl"></div>
+          <div class="canvas-corner tr"></div>
+          <div class="canvas-corner bl"></div>
+          <div class="canvas-corner br"></div>
+        </div>
+        <div class="drawing-toolbar">
+          <button class="btn ghost" id="btnClearDrawing">Limpar</button>
+          <button class="btn ghost" id="btnToggleGuide">Ocultar guia</button>
+          <span class="drawing-status" id="drawingStatus">A magia aguarda o traço.</span>
+          <button class="btn primary" id="btnCast">Conjurar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
