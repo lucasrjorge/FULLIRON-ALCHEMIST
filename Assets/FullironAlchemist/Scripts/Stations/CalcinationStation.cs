@@ -168,7 +168,7 @@ namespace Fulliron.Alchemy
             float normalized = NormalizedHeat;
 
             if (heatGauge != null)
-                heatGauge.SetValue(normalized, $"Calor {heat:0}");
+                heatGauge.SetValue(normalized, $"Calor {heat:0}\n{StageName()}");
 
             if (fireLight != null)
             {

@@ -20,6 +20,7 @@ Guia de entrada para agentes que vão implementar o FULLIRON ALCHEMIST. Leia est
 - `Assets/Scenes/BasicScene.unity` já tem XR Origin (XR Rig) do Starter Assets, XR Interaction Manager, EventSystem e chão com TeleportationArea.
 - `Assets/Scenes/SampleScene.unity` é o tutorial original do template. **Não alterar.**
 - A implementação começou em `Assets/FullironAlchemist/` com os scripts da Fase 0+1 (núcleo, itens, estantes, bandeja e log) e um construtor de cena do protótipo. A fatia vertical atual inclui **Calcinatio, Mesa do Símbolo e Grimório**; Dissolutio e Sublimatio ainda não estão na cena. A cena, os prefabs e os assets podem ser gerados pelo menu `Fulliron > Prototype > Construir Fase 0+1` ou montados manualmente seguindo `Docs/PHASE_0_1_GUIDE.md`.
+- O construtor atual monta o laboratório com **modelos procedurais em escala métrica única** (bancadas, forno, estantes, púlpito e botões). Não há títulos/logs/textos flutuantes fixos: nomes de elementos e instruções de botões usam `HoverLabel` e aparecem apenas no hover/seleção; o conteúdo do Grimório fica nas páginas físicas do livro.
 - O projeto usa o novo Input System e não tem assembly definitions próprias nesta fase. O código novo deve compilar em `Assembly-CSharp`.
 - O ambiente do agente pode não ter Unity nem `Library`; não assuma que consegue compilar ou rodar Play Mode.
 

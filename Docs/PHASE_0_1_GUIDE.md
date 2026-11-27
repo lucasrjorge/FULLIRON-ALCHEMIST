@@ -2,7 +2,7 @@
 
 Este guia acompanha os scripts da Fase 0 e Fase 1. Você pode montar a cena, os prefabs e os assets manualmente seguindo o passo a passo, ou usar o construtor automático de protótipo.
 
-> **Versão repaginada:** o construtor atual usa o subconjunto **Enxofre, Mercúrio, Sal, Orvalho e Ferro**; os nomes aparecem só no hover; as estações têm símbolos alquímicos nas paredes; a Terra fica em extensões das bancadas; a iluminação foi aumentada. As tabelas manuais abaixo são a referência de wiring da primeira versão; para a cena atual, a fonte de verdade é o construtor (`Fulliron > Prototype > Construir Fase 0+1`) e o código em `Assets/FullironAlchemist/Editor/PrototypeBuilder.cs`.
+> **Versão repaginada:** o construtor atual usa o subconjunto **Enxofre, Mercúrio, Sal, Orvalho e Ferro**; o laboratório é montado com modelos procedurais em escala métrica única (bancadas, forno, estante, púlpito e botões); as estações têm símbolos alquímicos nas paredes; a Terra fica em extensões das bancadas; a iluminação foi aumentada. Não há títulos, logs ou rótulos flutuantes fixos: nomes de elementos e instruções de botões aparecem apenas no hover. As tabelas manuais abaixo são a referência de wiring da primeira versão; para a cena atual, a fonte de verdade é o construtor (`Fulliron > Prototype > Construir Fase 0+1`) e o código em `Assets/FullironAlchemist/Editor/PrototypeBuilder.cs`.
 
 ## Atalho: construtor automático
 
@@ -35,7 +35,7 @@ Para testar sem procurar as estantes, o construtor deixa itens de teste nas pró
 - **Calcinatio:** um Enxofre cru na mesa.
 - **Mesa do Símbolo:** Enxofre, Sal e Orvalho crus à esquerda.
 
-Os botões têm rótulos no mundo: **BOMBEAR**, **SELAR**, **CONJURAR** e **REPOR**.
+Os botões não têm rótulos fixos. Ao apontar/segurar o botão, aparece o texto de ação: **BOMBEAR**, **SELAR**, **CONJURAR** e **REPOR**. Os nomes dos elementos (**AQUA**, **IGNIS**, **TERRA**, **AER**) aparecem apenas ao apontar para a placa do sigilo correspondente. O Grimório mostra o conteúdo nas páginas físicas do livro, sem texto flutuante na parede.
 
 ### Calcinatio
 
@@ -75,6 +75,7 @@ Se os componentes estiverem errados, a reação não acontece e a falha é regis
 
 - O nome do componente aparece apenas no hover/seleção.
 - Em um socket (slots da bandeja, âncoras da mesa ou cadinho), o label some.
+- As instruções dos botões e os nomes dos elementos também só aparecem no hover; não há textos flutuantes fixos no laboratório.
 
 ## Testar sem headset
 
