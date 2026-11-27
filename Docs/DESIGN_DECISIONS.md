@@ -222,7 +222,7 @@ Estas questões não bloqueiam o protótipo, mas precisam de decisão do arquite
 |---|---|
 | Inventário abstrato/menu | Quebra o pilar de objetos físicos e o aprendizado espacial. |
 | Hand tracking no protótipo | Mais difícil de testar e de acertar no primeiro sandbox. |
-| Gerador automático de cena | O usuário quer montar e aprender no Editor. |
+| Gerador automático de cena | A primeira versão era manual para aprender; depois o arquiteto pediu um construtor de protótipo. Hoje existe o `PrototypeBuilder` da Fase 0+1. |
 | Processo errado destrói o item | Perde a descoberta e a “escada” de componentes. |
 | Uma regra única de overprocessing | As estações têm fantasias e leituras diferentes. |
 | Validação do símbolo por menu | Perde a mecânica de desenho e a expressão do jogador. |
@@ -239,3 +239,90 @@ Estas questões não bloqueiam o protótipo, mas precisam de decisão do arquite
 - Não adicionar hand tracking, reações auxiliares ou LAYA no protótipo sem pedido.
 - Manter os dados demo claramente separados do conteúdo definitivo.
 - Perguntar ao arquiteto antes de inventar puzzles finais.
+
+## 6. Repaginação do protótipo (decisões novas)
+
+Estas decisões atualizam o entendimento anterior e valem para a versão repaginada do protótipo.
+
+### 6.1 Componentes primários
+
+O jogo completo tem 10 componentes primários:
+
+- Enxofre: alma e inflamabilidade.
+- Mercúrio: espírito e volatilidade.
+- Sal: corpo físico e estabilidade.
+- Orvalho: meio líquido puro para banhar e umedecer.
+- Ouro: perfeição e pureza.
+- Prata: pureza receptiva.
+- Cobre: emoções.
+- Ferro: força, ação e coragem.
+- Estanho: crescimento e expansão.
+- Chumbo: peso, densidade e tempo.
+
+O protótipo usa um subconjunto de 5: **Enxofre, Mercúrio, Sal, Orvalho e Ferro**. As duas cadeias de reações do protótipo ainda serão definidas pelo arquiteto; o subconjunto pode mudar quando elas forem fechadas.
+
+### 6.2 Elementos não são componentes
+
+`Aqua`, `Ignis`, `Terra` e `Aer` são **processos/símbolos**, não componentes primários. O componente `Orvalho` não é o elemento `Aqua`. O campo `element` foi removido de `AlchemicalComponent`; `AlchemicalElement` fica para estações, sockets e símbolos.
+
+### 6.3 Lore, não mecânica
+
+Os significados dos primários são lore/descrição por enquanto. Eles não entram no resolvedor de reações como tags ou princípios mecânicos. Servem para o jogador inferir componentes a partir da descrição do resultado final. O `AlchemicalComponent.description` guarda esse texto.
+
+### 6.4 Nomes e sockets
+
+- O nome do componente aparece **apenas no hover/seleção**, não o tempo todo.
+- O label 3D fica desabilitado até o item ser hover/selected.
+- Quando o item está em um **socket** (slot físico de encaixe, como os da bandeja), o nome some.
+- Os labels de fileira de estante e os nomes textuais das estações foram removidos.
+
+### 6.5 Símbolos e Terra
+
+- Símbolos dos elementos ficam desenhados nas paredes atrás das bancadas:
+  - Dissolutio: Água.
+  - Calcinatio: Fogo.
+  - Sublimatio: Ar.
+- Terra fica em uma **extensão da bancada** de Dissolutio e de Calcinatio, com o símbolo da Terra desenhado na própria extensão, não na parede.
+- A Mesa do Símbolo e o Grimório não recebem símbolo elemental.
+
+### 6.6 Dissolutio
+
+- O jogador gira a manivela para controlar a descida do componente.
+- 3 estados, nomes mantidos: Incompleto, Dissolvido, Superdissolvido.
+- O jogador deve parar/segurar o componente no estado desejado por alguns instantes para concluir; não precisa manter a manivela segurada.
+- Após concluir, o componente é extraído automaticamente e fica na bancada.
+- Cada estado é um componente novo derivado do original.
+- Resíduo: **1 tipo por componente**; o que muda entre estados é a **quantidade**.
+
+### 6.7 Calcinatio
+
+- 4 estágios, incluindo o estado cru (o próprio primário): cru, calcinado, supercalcinado, cinza.
+- A chama **decai continuamente**; bombear aumenta a potência.
+- O jogador mantém a chama na potência desejada por um tempo para o componente chegar ao estado desejado; chama mais forte acelera.
+- O jogador sela a chama para parar no estágio desejado.
+- O resíduo tem **2 variações por componente**: chama fraca e chama forte, com nome/aparência única.
+
+### 6.8 Sublimatio
+
+- 3 estados/cores de gás, dependentes do tempo de aquecimento.
+- O jogador pode extrair o gás diretamente ou abrir a ventoinha para cristalizar.
+- O gás extraído é um componente físico único por **origem + estado**.
+- O cristal depende da **origem + estado do gás**, gerando um componente diferente por combinação.
+
+### 6.9 Iluminação e cena
+
+- A cena foi repaginada para ficar mais clara:
+  - ambiente Flat;
+  - Directional Light mais forte;
+  - 5 luzes pontuais sem sombra;
+  - teto sem projeção de sombra.
+- O construtor de Editor gera a cena, os dados, materiais e prefab. O usuário pode ajustar no Unity.
+
+## 7. Questões em aberto após a repaginação
+
+1. Quais são as **2 cadeias de reações** do protótipo? Quais componentes primários, processos e resultados cada uma usa?
+2. O subconjunto de 5 primários (Enxofre, Mercúrio, Sal, Orvalho, Ferro) é o correto para essas cadeias?
+3. Nomes e cores exatas dos 3 estados de gás e dos cristais de cada primário.
+4. Os componentes processados também terão resíduos próprios quando passarem por novos processos?
+5. A ordem das operações e o histórico de processos serão exigidos nas receitas demo ou ficam para depois?
+6. O comportamento exato do dwell da Dissolutio (tempo por estado, extração automática) e da manutenção da chama da Calcinatio (decaimento, faixa de potência, tempo) precisa de números de protótipo.

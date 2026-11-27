@@ -70,8 +70,6 @@ namespace Fulliron.Alchemy
             history.Add(process, intensity, duration, outcome.output.Id);
             SetData(outcome.output, outcome.outputState);
 
-            if (outcome.residue != null)
-                PrototypeLog.Log($"{name}: resíduo gerado: {outcome.residue.DisplayName}.");
             if (!string.IsNullOrWhiteSpace(outcome.message))
                 PrototypeLog.Log($"{name}: {outcome.message}");
 

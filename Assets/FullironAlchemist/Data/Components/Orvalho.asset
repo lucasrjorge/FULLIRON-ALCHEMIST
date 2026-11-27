@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d63b467bba1d248a2195571547a1c8, type: 3}
+  m_Name: Orvalho
+  m_EditorClassIdentifier: Assembly-CSharp::Fulliron.Alchemy.AlchemicalComponent
+  id: dew
+  displayName: Orvalho
+  description: "Meio l\xEDquido puro para banhar e umedecer as misturas."
+  primary: 1
+  defaultState: 0
+  tags: 36
+  dissolutionResidue: {fileID: 11400000, guid: b525c28791af4b44eaec67fa1d7e4a42, type: 2}
+  calcinationResidueWeak: {fileID: 11400000, guid: beb87a5627abaeb46853607ef9f26079, type: 2}
+  calcinationResidueStrong: {fileID: 11400000, guid: 717457c0650b4df48ac16622620f454c, type: 2}
+  color: {r: 0.49803922, g: 0.7176471, b: 0.8509804, a: 1}
+  emissionColor: {r: 0, g: 0, b: 0, a: 1}
+  emissionIntensity: 0

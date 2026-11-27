@@ -10,7 +10,7 @@ namespace Fulliron.Alchemy
         [Range(0f, 1f)] public float maxProgress = 1f;
         public AlchemicalComponent output;
         public ComponentState outputState = ComponentState.Raw;
-        public AlchemicalComponent residue;
+        [Min(0)] public int residueAmount = 1;
         [TextArea(1, 3)] public string message;
 
         public bool Matches(float progress)

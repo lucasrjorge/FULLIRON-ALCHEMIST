@@ -19,7 +19,7 @@ Guia de entrada para agentes que vão implementar o FULLIRON ALCHEMIST. Leia est
 - Interação do protótipo: **controles VR**. Não implementar hand tracking agora.
 - `Assets/Scenes/BasicScene.unity` já tem XR Origin (XR Rig) do Starter Assets, XR Interaction Manager, EventSystem e chão com TeleportationArea.
 - `Assets/Scenes/SampleScene.unity` é o tutorial original do template. **Não alterar.**
-- A implementação começou em `Assets/FullironAlchemist/` com os scripts da Fase 0+1 (núcleo, itens, estantes, bandeja e log). A cena, os prefabs e os assets de dados são montados pelo usuário no Unity seguindo `Docs/PHASE_0_1_GUIDE.md`.
+- A implementação começou em `Assets/FullironAlchemist/` com os scripts da Fase 0+1 (núcleo, itens, estantes, bandeja e log) e um construtor de cena do protótipo. A fatia vertical atual inclui **Calcinatio, Mesa do Símbolo e Grimório**; Dissolutio e Sublimatio ainda não estão na cena. A cena, os prefabs e os assets podem ser gerados pelo menu `Fulliron > Prototype > Construir Fase 0+1` ou montados manualmente seguindo `Docs/PHASE_0_1_GUIDE.md`.
 - O projeto usa o novo Input System e não tem assembly definitions próprias nesta fase. O código novo deve compilar em `Assembly-CSharp`.
 - O ambiente do agente pode não ter Unity nem `Library`; não assuma que consegue compilar ou rodar Play Mode.
 
@@ -52,7 +52,7 @@ Guia de entrada para agentes que vão implementar o FULLIRON ALCHEMIST. Leia est
 - Preferir referências explícitas no Inspector, componentes pequenos e responsabilidade única. Evitar singletons desnecessários, mas um log de protótipo ou um gerente de Grimório pode ser singleton se isso simplificar o sandbox.
 - Usar TextMeshPro para textos e placeholders com primitivas, materiais URP e partículas simples.
 - Não alterar `Assets/Samples`, `Assets/VRTemplateAssets` ou `Assets/Scenes/SampleScene.unity` sem pedido explícito.
-- Não criar gerador automático de cena. O usuário quer montar cena, prefabs e dados no Editor para aprender; o agente entrega scripts e guias passo a passo.
+- O protótipo tem um construtor de Editor em `Assets/FullironAlchemist/Editor/PrototypeBuilder.cs`, acessível por `Fulliron > Prototype > Construir Fase 0+1`. Ele cria o sandbox da Fase 0+1. Não criar geradores de cena para outras fases sem pedido explícito; o guia manual continua em `Docs/PHASE_0_1_GUIDE.md`.
 
 ## Estrutura de código
 
@@ -67,6 +67,7 @@ Assets/FullironAlchemist/
   Scripts/Reactions
   Scripts/Grimoire
   Scripts/Debug
+  Editor/PrototypeBuilder.cs
   Data/Components
   Data/Processing
   Data/Reactions

@@ -12,6 +12,9 @@ namespace Fulliron.Alchemy
         [Header("Perfis de processo")]
         public List<ProcessingProfile> processingProfiles = new List<ProcessingProfile>();
 
+        [Header("Receitas de reação")]
+        public List<ReactionRecipe> reactionRecipes = new List<ReactionRecipe>();
+
         public AlchemicalComponent FindComponent(string id)
         {
             if (string.IsNullOrWhiteSpace(id) || components == null)

@@ -63,7 +63,7 @@ O protótipo não precisa de arte final, áudio definitivo, puzzles definitivos,
 
 **Usuário monta:**
 
-- Componentes-base demo (ex.: Ferrum, Sulfur, Aqua, Sal).
+- Componentes primários do subconjunto: Enxofre, Mercúrio, Sal, Orvalho e Ferro.
 - 3–5 componentes processados demo com tags e aparência distinta.
 - `Item_Base.prefab` com `XRGrabInteractable`, Rigidbody, collider, `AlchemicalItem`, `ComponentVisuals` e label TMP.
 - Duas estantes com fileiras e botões de reposição.
@@ -72,7 +72,7 @@ O protótipo não precisa de arte final, áudio definitivo, puzzles definitivos,
 **Teste de aceite:**
 
 - Apertar o botão de uma fileira e ver os itens se materializarem.
-- Pegar itens, colocar na bandeja e ver nome/estado/tags no label ou debug hud.
+- Pegar itens, colocar na bandeja e ver nome/estado no label durante o hover/seleção; o label some no socket.
 - Alterar o componente pelo menu de contexto e ver a aparência mudar.
 - Console sem erros.
 
@@ -133,7 +133,8 @@ O protótipo não precisa de arte final, áudio definitivo, puzzles definitivos,
 - Item no tubo + girar pouco = incompleto.
 - Girar na faixa ideal = dissolvido.
 - Girar demais = superdissolvido.
-- Resíduo Terra aparece.
+- Parar no estado desejado, aguardar o dwell e ver a extração automática.
+- Resíduo Terra aparece na extensão; 1 tipo por componente, quantidade varia com o estado.
 - Remover o item pausa/interrompe.
 - Console sem erros.
 
@@ -156,11 +157,11 @@ O protótipo não precisa de arte final, áudio definitivo, puzzles definitivos,
 
 **Teste de aceite:**
 
-- Bombear aumenta calor; com o fogo aceso o componente continua aquecendo; desligar pausa.
-- Selar em cada faixa gera o componente correspondente.
+- Bombear aumenta a chama; a chama decai continuamente; manter a potência desejada por um tempo.
+- Selar em cada estágio (4, incluindo cru) gera o componente correspondente.
 - Ignorar e passar do ponto gera cinza/queimado.
 - Overheat gera bagunça/fumaça e permite limpar.
-- Resíduo Terra aparece.
+- Resíduo Terra aparece na extensão; 2 resíduos por componente (chama fraca/forte).
 - Console sem erros.
 
 **Conceitos:** tempo real, curvas, alertas multi-sensoriais, falha controlada, limpeza.
@@ -182,8 +183,8 @@ O protótipo não precisa de arte final, áudio definitivo, puzzles definitivos,
 **Teste de aceite:**
 
 - Aquecer e ver os 3 estados de gás por cor.
-- Usar o gás diretamente.
-- Cristalizar e obter cristal diferente por estado.
+- Usar o gás diretamente como componente físico (origem + estado).
+- Cristalizar e obter cristal diferente por origem + estado do gás.
 - Ignorar e obter estado errado.
 - Desligar/remover pausa.
 - Console sem erros.
@@ -239,7 +240,7 @@ O protótipo não precisa de arte final, áudio definitivo, puzzles definitivos,
 - O validador geométrico é uma ponte; o LAYA entra depois sobre a imagem renderizada.
 - O validador geométrico aceita variações dentro de famílias de templates; ele não aprende símbolos novos em tempo real. Cadastro/ensino de variantes fica para a fase LAYA.
 - Duas receitas demo: uma exata e uma por tags.
-- Componentes demo: 4 base + 5–8 processados.
+- Componentes demo: 5 primários do subconjunto + 12 processados de Enxofre para testar estados.
 - Uma anomalia: distorção da sala.
 - Sem reações auxiliares, hand tracking, multiplayer, arte final ou conteúdo definitivo de puzzles.
 - A bandeja começa estática na mesa; carregá-la com as duas mãos fica para depois.

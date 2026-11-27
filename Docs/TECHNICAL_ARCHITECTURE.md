@@ -7,7 +7,7 @@
 - **Regras determinísticas:** a resolução de processo e de reação é lógica pura, sem depender de física complexa.
 - **Referências explícitas:** preferir campos no Inspector a singletons escondidos. Um `PrototypeLog` e um `GrimoireManager` podem ser singletons de protótipo se isso reduzir wiring.
 - **Fatias pequenas:** cada entrega deve ser compilável e testável isoladamente.
-- **Sem gerador de cena:** o usuário monta a cena, prefabs e assets no Editor para aprender. O agente entrega scripts e guias.
+- **Construtor de protótipo:** o sandbox da Fase 0+1 tem um construtor de Editor em `Assets/FullironAlchemist/Editor/PrototypeBuilder.cs` (menu `Fulliron > Prototype > Construir Fase 0+1`). O usuário ainda pode montar e ajustar a cena, prefabs e assets manualmente para aprender.
 - **Sem asmdef nesta fase:** o código novo fica em `Assembly-CSharp` para referenciar XRI, TMP e scripts do template sem configuração extra.
 - **Namespace:** `Fulliron.Alchemy`.
 
@@ -36,6 +36,7 @@ Assets/FullironAlchemist/
       AlchemicalItem.cs
       ComponentVisuals.cs
       ItemLabel.cs
+      WorldBillboard.cs
       ProcessHistory.cs
       ProcessingProfile.cs
       ProcessingOutcome.cs
@@ -93,6 +94,8 @@ Assets/FullironAlchemist/
       LabReset.cs
       RoomDistortion.cs
       PlayerEffectController.cs
+  Editor/
+    PrototypeBuilder.cs
   Data/
     Components/
     Processing/
@@ -149,11 +152,13 @@ AlchemicalComponent
   string id
   string displayName
   string description
-  AlchemicalElement element
+  bool primary
   ComponentState defaultState
   Color color
   EffectTag tags
-  AlchemicalComponent residue
+  AlchemicalComponent dissolutionResidue
+  AlchemicalComponent calcinationResidueWeak
+  AlchemicalComponent calcinationResidueStrong
   Material optionalMaterial
 
 ProcessingProfile
@@ -168,7 +173,7 @@ ProcessingOutcome
   float maxProgress
   AlchemicalComponent output
   ComponentState outputState
-  AlchemicalComponent residue
+  int residueAmount
   string message
 
 ReactionRecipe
@@ -212,13 +217,13 @@ FailureProfile
 - Referencia `AlchemicalComponent`, `ComponentState`, `EffectTag` e `ProcessHistory`.
 - Métodos:
   - `SetData(AlchemicalComponent, ComponentState)`.
-  - `ApplyOutcome(ProcessingOutcome)`.
+  - `ApplyProcess(ProcessType, float, ProcessingOutcome, float)`.
   - `Consume()` (dispara evento e destrói).
   - `ResetToDefault()`.
 - `ComponentVisuals` observa o item e atualiza:
   - cor/emissão via `MaterialPropertyBlock` (URP `_BaseColor`, `_EmissionColor`);
   - escala/partículas para gás, cinza, resíduo;
-  - label TMP com nome e estado.
+  - `ItemLabel` mostra nome/estado apenas no hover/seleção; em socket, o label some.
 
 ### 5.2 Estantes e bandeja
 
@@ -389,11 +394,13 @@ PrototypeLab
       ClearButton
       ResultSpawn
     DissolutionTable
-      Tube / Piston / Crank / ResidueTray
-    PurificationTable
-      Grate / Bellows / SealButton / FireVFX / HeatGauge / ResidueTray
+      Tube / Piston / Crank / TerraExtension / EarthSymbol / ResidueSpawn
+    CalcinationTable
+      Grate / Bellows / SealButton / FireVFX / HeatGauge / TerraExtension / EarthSymbol / ResidueSpawn
     SublimationTable
       Heater / GasChamber / Fan / CoolingCoil / GasOutput / CrystalOutput
+    WallSymbols
+      ElementSymbol_Aqua / ElementSymbol_Ignis / ElementSymbol_Aer
   Shelves
     ShelfRow_1..N
   Grimoire

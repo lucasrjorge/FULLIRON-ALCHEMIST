@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d63b467bba1d248a2195571547a1c8, type: 3}
+  m_Name: EnxofreIncompleto
+  m_EditorClassIdentifier: Assembly-CSharp::Fulliron.Alchemy.AlchemicalComponent
+  id: sulfur_incomplete
+  displayName: Enxofre Incompleto
+  description: Enxofre que passou por uma Dissolutio incompleta.
+  primary: 0
+  defaultState: 1
+  tags: 12
+  dissolutionResidue: {fileID: 0}
+  calcinationResidueWeak: {fileID: 0}
+  calcinationResidueStrong: {fileID: 0}
+  color: {r: 0.7882353, g: 0.6901961, b: 0.41568628, a: 1}
+  emissionColor: {r: 0, g: 0, b: 0, a: 1}
+  emissionIntensity: 0

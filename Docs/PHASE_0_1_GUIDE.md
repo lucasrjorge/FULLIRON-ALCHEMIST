@@ -1,6 +1,118 @@
 # GUIA DE MONTAGEM — FASE 0 + FASE 1
 
-Este guia acompanha os scripts da Fase 0 e Fase 1. A cena, os prefabs e os assets são montados por você no Unity; o agente entrega os scripts e este passo a passo.
+Este guia acompanha os scripts da Fase 0 e Fase 1. Você pode montar a cena, os prefabs e os assets manualmente seguindo o passo a passo, ou usar o construtor automático de protótipo.
+
+> **Versão repaginada:** o construtor atual usa o subconjunto **Enxofre, Mercúrio, Sal, Orvalho e Ferro**; os nomes aparecem só no hover; as estações têm símbolos alquímicos nas paredes; a Terra fica em extensões das bancadas; a iluminação foi aumentada. As tabelas manuais abaixo são a referência de wiring da primeira versão; para a cena atual, a fonte de verdade é o construtor (`Fulliron > Prototype > Construir Fase 0+1`) e o código em `Assets/FullironAlchemist/Editor/PrototypeBuilder.cs`.
+
+## Atalho: construtor automático
+
+O projeto tem um construtor de Editor em `Assets/FullironAlchemist/Editor/PrototypeBuilder.cs`.
+
+1. Abra o Unity e espere a compilação terminar.
+2. Use o menu **Fulliron > Prototype > Construir Fase 0+1**.
+3. O construtor cria ou atualiza:
+   - componentes demo em `Assets/FullironAlchemist/Data/Components`;
+   - banco `AlchemyDatabase.asset`;
+   - materiais em `Assets/FullironAlchemist/Materials`;
+   - prefab `Assets/FullironAlchemist/Prefabs/Item_Base.prefab`;
+   - cena `Laboratorium` com sala, mesas, estantes, bandeja, botões, log e item de teste;
+   - a entrada da cena nas Build Settings.
+4. Entre em Play Mode e teste a Fase 1.
+
+O construtor preserva os objetos existentes da cena e recria apenas o root `FULLIRON_PROTOTYPE`. Se a cena `Laboratorium` não existir, ele duplica `BasicScene`.
+
+Também é possível rodar em batch mode, com o Unity fechado:
+
+```powershell
+& "C:\Program Files\Unity\Hub\Editor\6000.3.8f1\Editor\Unity.exe" -batchmode -quit -projectPath "D:\VR-Game\FULLIRON-ALCHEMIST" -executeMethod Fulliron.Alchemy.Editor.PrototypeBuilder.BuildPhase01 -logFile "Logs/PrototypeBuilderBatch.log"
+```
+
+## Fatia atual: Calcinatio + Mesa do Símbolo + Grimório
+
+O protótipo atual é uma fatia vertical com apenas a Calcinatio, a reação na Mesa do Símbolo e o Grimório. Dissolutio e Sublimatio ficam para depois.
+
+Para testar sem procurar as estantes, o construtor deixa itens de teste nas próprias bancadas:
+- **Calcinatio:** um Enxofre cru na mesa.
+- **Mesa do Símbolo:** Enxofre, Sal e Orvalho crus à esquerda.
+
+Os botões têm rótulos no mundo: **BOMBEAR**, **SELAR**, **CONJURAR** e **REPOR**.
+
+### Calcinatio
+
+1. Pegue **Enxofre** na estante.
+2. Coloque o Enxofre no socket do **cadinho** na bancada da Calcinatio.
+3. Pressione o **fole** (proxy: balde + botão) para subir a chama.
+4. A chama decai com o tempo; continue bombeando para manter a potência no medidor.
+5. O texto mostra o estágio: Cru, Calcinado, Supercalcinado ou Cinza.
+6. Quando chegar no estágio desejado, pressione o botão de **selar**.
+7. O Enxofre vira o componente daquele estágio. Retire-o do cadinho.
+8. O resíduo Terra aparece na extensão da bancada. Ele é **fraco** ou **forte** conforme a potência da chama no momento do selo.
+
+A Calcinatio tem perfil de processo configurado para o Enxofre. Outros primários mostram “sem perfil” nesta fatia.
+
+### Mesa do Símbolo
+
+A mesa está em modo demo com o símbolo fixo **Ouro**. O desenho livre/LAYA fica para a próxima etapa.
+
+1. Posicione os componentes nos sockets com os símbolos:
+   - **Ignis**: Enxofre Calcinado;
+   - **Terra**: Sal;
+   - **Aqua**: Orvalho.
+2. Pressione o **botão de conjurar** na frente da mesa.
+3. A mesa consome os componentes e gera **Ouro**.
+4. O Grimório registra a reação e o componente Ouro.
+
+Se os componentes estiverem errados, a reação não acontece e a falha é registrada no Grimório.
+
+### Grimório
+
+- Passe o cursor sobre um item para descobrir o componente.
+- O Grimório mostra a página da reação “Transmutação de Ouro” com resultado visível e componentes ocultos até a descoberta.
+- Selar uma Calcinatio ou concluir a reação preenche as descobertas.
+- O save fica em `PlayerPrefs`; use o menu de contexto `Reset Save` no `GrimoireManager` para limpar.
+
+### Nomes e sockets
+
+- O nome do componente aparece apenas no hover/seleção.
+- Em um socket (slots da bandeja, âncoras da mesa ou cadinho), o label some.
+
+## Testar sem headset
+
+O jeito recomendado é usar o **XR Interaction Simulator** do XR Interaction Toolkit. Ele simula headset e controles no Editor com teclado e mouse.
+
+1. Abra `Window > Package Manager`.
+2. Selecione o pacote **XR Interaction Toolkit**.
+3. Abra a aba **Samples**.
+4. Importe **XR Interaction Simulator** (recomendado) ou **XR Device Simulator** (clássico/deprecado).
+5. No Project, abra `Assets/Samples/XR Interaction Toolkit/3.5.1/XR Interaction Simulator`.
+6. Arraste `XR Interaction Simulator.prefab` para a cena `Laboratorium` (como root).
+7. Salve a cena e entre em Play Mode com o Quest desconectado.
+8. O HUD do simulador aparece no Game view. Use o HUD para clicar nos controles virtuais e ver os atalhos atuais.
+
+Atalhos iniciais do **XR Interaction Simulator**:
+
+| Tecla | Ação |
+|---|---|
+| `Tab` | Alterna o dispositivo manipulado (headset, controle esquerdo, direito). |
+| `WASD` | Move o dispositivo para frente/trás/lados. |
+| `Q` / `E` | Move para baixo/cima. |
+| Setas | Rotaciona o dispositivo. |
+| `[` / `]` | Manipula o controle esquerdo/direito. |
+| `H` | Manipula o headset. |
+| `` ` `` (backquote) | Alterna o “quick action” atual. |
+| `Espaço` | Executa o quick action (útil para trigger/grip). |
+| `R` | Reseta o simulador. |
+| Botão direito do mouse | Alterna o modo de rotação com o mouse. |
+| `X` | Abre/fecha o menu de ações do HUD. |
+
+Dicas:
+
+- Use o HUD para selecionar o controle e clicar nos botões virtuais quando não lembrar o atalho.
+- Para pegar um componente, selecione o controle direito/esquerdo, escolha o quick action de trigger/grip e execute com `Espaço`; o `XRGrabInteractable` responde como no VR.
+- O simulador é uma ferramenta de **Editor**. Antes de buildar para o Quest, remova ou desative o prefab do simulador.
+- Se o HUD não aparecer, confira se o prefab principal do sample foi instanciado e se o Game view não está com resolução muito pequena. Se necessário, arraste também `UI/XR Interaction Simulator UI.prefab` para a cena.
+
+O passo a passo manual abaixo continua válido para aprender o wiring e para ajustar o que o construtor criou.
 
 ## O que foi implementado
 
@@ -47,7 +159,8 @@ Não foram criadas cenas, prefabs ou assets de dados automaticamente. Esta fase 
 1. No Project, abra `Assets/Scenes`.
 2. Clique com o botão direito em `BasicScene` e escolha **Duplicate**.
 3. Renomeie a cópia para `PrototypeLab` e abra.
-4. Adicione `PrototypeLab` às cenas de build:
+   - Se você já criou `Assets/Scenes/Laboratorium.unity`, use essa cena no lugar de criar outra; `PrototypeLab` é apenas um nome sugerido.
+4. Adicione a cena (`PrototypeLab` ou `Laboratorium`) às cenas de build:
    - Unity 6: `File > Build Profiles` (ou `Build Settings`) > `Add Open Scenes`.
    - Confirme que o build target é **Android**.
 5. Salve a cena (`Ctrl+S`).
@@ -93,8 +206,10 @@ Use cubos com BoxCollider. O topo deve ficar a ~0,90 m do chão.
 |---|---|---|
 | Mesa do Símbolo | `(0, 0.86, 2.5)` | `(1.6, 0.08, 0.9)` |
 | Mesa da Dissolução | `(-2.8, 0.86, 0)` | `(1.2, 0.08, 0.8)` |
-| Mesa da Purificação | `(2.8, 0.86, 0)` | `(1.2, 0.08, 0.8)` |
+| Mesa da Calcinatio | `(2.8, 0.86, 0)` | `(1.2, 0.08, 0.8)` |
 | Mesa da Gaseificação | `(0, 0.86, -2.5)` | `(1.2, 0.08, 0.8)` |
+
+As bancadas de Dissolução e Calcinatio têm extensões laterais com o símbolo da Terra na própria extensão. As paredes atrás de Dissolução, Calcinatio e Gaseificação recebem os símbolos de Água, Fogo e Ar.
 
 Dicas:
 
@@ -170,38 +285,26 @@ No Project, clique com o botão direito em `Data/Components` e escolha:
 
 `Create > Fulliron > Alchemical Component`
 
-Crie primeiro os resíduos, depois os ingredientes-base, depois os processados demo.
+### 2.1 Assets atuais gerados pelo construtor
 
-### 2.1 Resíduos Terra
+O construtor cria automaticamente:
 
-| Asset | Id | Display Name | Element | Default State | Tags | Tint |
-|---|---|---|---|---|---|---|
-| `TerraFerrosa` | `terra_ferrosa` | Terra Ferrosa | Terra | Residue | Dry | `#6B4A2B` |
-| `TerraSulfurosa` | `terra_sulfurosa` | Terra Sulfurosa | Terra | Residue | Dry | `#8A6A2B` |
-| `TerraAquosa` | `terra_aquosa` | Terra Aquosa | Terra | Residue | Moist | `#4A6B5A` |
-| `TerraSalina` | `terra_salina` | Terra Salina | Terra | Residue | Dry, Pure | `#D9D9D9` |
+- **5 primários:** Enxofre, Mercúrio, Sal, Orvalho e Ferro.
+- **15 resíduos:** 1 de Dissolutio + 2 de Calcinatio (chama fraca/forte) por primário.
+- **12 processados demo de Enxofre:** Incompleto/Dissolvido/Superdissolvido; Calcinado/Supercalcinado/Cinza; 3 gases; 3 cristais.
+- **`AlchemyDatabase.asset`** com todos os componentes.
 
-Deixe `Residue` vazio nesses assets.
+Não existem mais os assets antigos `Ferrum`, `Sulfur`, `Aqua`, `TerraFerrosa`, etc.; eles são removidos pelo construtor. Para criar/alterar os dados manualmente, replique os campos do método `CreateData()` em `Assets/FullironAlchemist/Editor/PrototypeBuilder.cs`.
 
-### 2.2 Ingredientes-base
+Cada primário tem:
 
-| Asset | Id | Display Name | Element | Default State | Tags | Tint | Residue |
-|---|---|---|---|---|---|---|---|
-| `Ferrum` | `ferrum` | Ferrum | Terra | Raw | Dry | `#8A8F98` | `TerraFerrosa` |
-| `Sulfur` | `sulfur` | Sulfur | Ignis | Raw | Heat | `#D8B43A` | `TerraSulfurosa` |
-| `Aqua` | `aqua` | Aqua | Aqua | Raw | Moist | `#3A7BD5` | `TerraAquosa` |
-| `Sal` | `sal` | Sal | Terra | Raw | Dry, Pure | `#E8E8E8` | `TerraSalina` |
+- `Primary`: ligado.
+- `Dissolution Residue`: 1 resíduo.
+- `Calcination Residue Weak` / `Strong`: 2 resíduos.
 
-### 2.3 Componentes processados demo
+### 2.2 Processados demo
 
-| Asset | Id | Display Name | Element | Default State | Tags | Tint |
-|---|---|---|---|---|---|---|
-| `FerrumCalcinadoLeve` | `ferrum_calcinado_leve` | Ferrum Calcinado Leve | Terra | Calcined | Heat, Dry | `#B4532A` |
-| `SalDissolvido` | `sal_dissolvido` | Sal Dissolvido | Aqua | Dissolved | Moist, Pure | `#4FB3A8` |
-| `FerrumSublimado` | `ferrum_sublimado` | Ferrum Sublimado | Aer | GasStable | Volatile | `#8FD3FF` |
-| `CristalDeFerro` | `cristal_de_ferro` | Cristal de Ferro | Terra | Crystallized | Pure | `#B07CFF` |
-
-Esses componentes são placeholders para testar aparência, estado e tags. Os processos reais entram nas Fases 3–5.
+Os processados de Enxofre existem para testar aparência/estado. O número e os nomes dos processados dos outros primários entram quando as duas cadeias de reações forem definidas.
 
 ### 2.4 Banco de dados (recomendado)
 
@@ -321,10 +424,16 @@ Adicione:
 5. Adicione `ItemLabel`:
    - `Item`: arraste o `AlchemicalItem` do root
    - `Label`: arraste o próprio TextMeshPro
-   - `Show Tags`: ligado
+   - `Grab Interactable`: vazio (ele encontra no pai automaticamente)
+   - `Show On Hover`: ligado
+   - `Show On Select`: ligado
+   - `Hide When Socketed`: ligado
+   - `Show Tags`: desligado
    - `Face Camera`: ligado
    - `Flip Facing`: desligado (ligue se o texto aparecer espelhado)
    - `Hide When Empty`: desligado
+
+Deixe o texto do TMP vazio; o `ItemLabel` preenche no hover/seleção. O nome some quando o item entra em um socket.
 
 Ajuste o tamanho da fonte/escala até o texto ficar legível a ~0,5 m.
 
@@ -359,23 +468,25 @@ Você pode criar um botão reutilizável e duplicar.
 
 ## 6. Criar a estante `ShelfRow`
 
-1. Crie um Empty `ShelfRow_Ferrum` posicionado sobre a prateleira oeste, por exemplo `(-3.8, 1.25, 1.5)`.
+1. Crie um Empty `ShelfRow_Enxofre` posicionado sobre a prateleira oeste em `(-3.8, 1.25, 0.8)`.
 2. Adicione `ShelfRow`.
-3. Crie 3 filhos Empty para os slots. Como o `ShelfRow_Ferrum` está em `(-3.8, 1.25, 1.5)`, use posições locais:
-   - `Slot_01`: `(0, 0.03, -0.4)`
+3. Crie 3 filhos Empty para os slots. Use posições locais:
+   - `Slot_01`: `(0, 0.03, -0.3)`
    - `Slot_02`: `(0, 0.03, 0)`
-   - `Slot_03`: `(0, 0.03, 0.4)`
-   - Ajuste conforme o tamanho da prateleira.
+   - `Slot_03`: `(0, 0.03, 0.3)`
 4. Posicione o `RestockButton` na frente/na borda da prateleira, ao alcance.
 5. No `ShelfRow`:
-   - `Component`: `Ferrum`
+   - `Component`: `Enxofre`
    - `Item Prefab`: `Item_Base`
    - `Slots`: arraste os 3 slots
    - `Occupied Radius`: 0.15
    - `Restock Button`: arraste o `SimpleButton`
    - `Restock Vfx`: opcional
    - `Restock On Start`: ligado
-6. Duplique a fileira para Sulfur, Aqua e Sal e troque o `Component` de cada uma. Distribua nas duas estantes.
+6. Duplique as fileiras:
+   - Oeste: `ShelfRow_Enxofre` em z `0.8`, `ShelfRow_Mercurio` em z `1.45`, `ShelfRow_Sal` em z `2.1`.
+   - Leste: `ShelfRow_Orvalho` em z `1.05`, `ShelfRow_Ferro` em z `1.9`.
+   - Troque o `Component` de cada uma e use `frontSign` +1 no oeste e -1 no leste para o botão.
 
 Observação: o `ShelfRow` assina o evento do botão automaticamente. Se você também arrastar `ShelfRow.Restock` no UnityEvent `On Pressed` do botão, o estoque será reposto duas vezes. Escolha um dos métodos.
 
@@ -411,11 +522,11 @@ Entre em Play Mode e faça:
 
 - [ ] As fileiras repõem itens no início (log “repostos N item(ns)”).
 - [ ] Você consegue pegar um item da estante.
-- [ ] O label mostra nome, estado e tags.
+- [ ] No hover/seleção, o label mostra nome e estado; ao entrar em um socket, o nome some.
 - [ ] A cor do item corresponde ao componente.
 - [ ] Você consegue colocar itens nos sockets da bandeja (log do socket).
 - [ ] O botão de reposição se move e repõe apenas slots vazios.
-- [ ] Selecionar um item na Hierarchy e usar `AlchemicalItem > Debug/Ciclar estado` muda o label/cor.
+- [ ] Selecionar um item na Hierarchy e usar `AlchemicalItem > Debug/Ciclar estado` muda a cor e o texto no próximo hover.
 - [ ] O Console não tem erros.
 
 ## 10. Problemas comuns

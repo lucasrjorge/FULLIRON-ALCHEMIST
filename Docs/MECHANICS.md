@@ -24,12 +24,23 @@ AlchemicalItem
   ProcessHistory history      // processos, intensidades e ordem
 ```
 
+Cada componente tem:
+
+```text
+AlchemicalComponent
+  bool primary
+  AlchemicalComponent dissolutionResidue
+  AlchemicalComponent calcinationResidueWeak
+  AlchemicalComponent calcinationResidueStrong
+  string description          // lore/significado
+```
+
 Regras:
 
 - Processar um componente **não edita** o componente original: produz um novo `AlchemicalComponent`/estado/tags e atualiza a aparência do item.
 - O novo componente é permanente. Não existe desfazer ou “consertar” o componente errado.
 - O mesmo componente pode ser usado em várias receitas; a identidade exata e as tags são consultadas pelo resolvedor.
-- Um componente pode ser um ingrediente, um processado ou um dos quatro elementos; a identidade vem do `AlchemicalComponent` e do `AlchemicalElement`.
+- Um componente é uma substância física. `Aqua`, `Ignis`, `Terra` e `Aer` são processos/símbolos, não componentes.
 - O histórico é registrado para depuração e para futuras receitas que exijam ordem/etapas. No protótipo, a validação principal usa componente + estado + tags.
 
 ### Estados iniciais sugeridos
@@ -55,9 +66,13 @@ ProcessingOutcome
   float maxProgress
   AlchemicalComponent output
   ComponentState outputState
-  AlchemicalComponent residue
+  int residueAmount
   string message
 ```
+
+O tipo de resíduo vem do próprio componente:
+- `dissolutionResidue`: 1 tipo por componente; `residueAmount` muda por estado.
+- `calcinationResidueWeak` / `calcinationResidueStrong`: 2 variações por componente.
 
 Regras:
 
@@ -73,24 +88,23 @@ Regras:
 ### 4.1 Dissolutio
 
 - **Entrada:** item no tubo.
-- **Controle:** manivela; progresso acumulado pelo giro.
-- **Faixas:**
-  - abaixo do ideal: `Incomplete` (componente novo);
-  - faixa ideal: `Dissolved`;
-  - acima do ideal: `Superdissolved`.
-- **Resíduo:** Terra gerada a partir do componente de entrada.
-- **Pausa:** parar de girar pausa; remover o item interrompe e aplica `interruptOutcome`.
+- **Controle:** a manivela controla a descida do componente e o grau de filtragem.
+- **Estados:** `Incomplete`, `Dissolved`, `Superdissolved` (nomes mantidos).
+- **Conclusão:** o jogador para no estado desejado e aguarda alguns instantes; o processo conclui sozinho e o componente é extraído automaticamente para a bancada. Não é preciso segurar a manivela durante a espera.
+- **Resíduo:** `component.dissolutionResidue`; 1 tipo por componente. O `residueAmount` do outcome muda conforme o estado.
+- **Pausa:** parar de girar mantém a profundidade; remover o item interrompe.
 - **Feedback:** pistão desce, líquido, mudança de cor, som.
 
 ### 4.2 Calcinatio
 
 - **Entrada:** item sobre a grelha.
-- **Controle:** bombear ar aumenta o calor. Enquanto o fogo estiver aceso, o componente continua aquecendo; o botão de selar captura o estágio atual e para o processo.
-- **Estágios:** `Raw` (cru) -> `Calcined` -> `Supercalcined` -> `Ash` (cinza).
-- **Regra:** selar em cada faixa gera o componente correspondente. Se o jogador não selar, o componente avança pelos estágios e, no limite final, vira `Ash`/`Burnt`. Desligar o fogo ou remover o item pausa/interrompe; o estágio já atingido não regride.
-- **Perigo:** calor acima de um limiar por tempo demais dispara evento de fogo/fumaça e limpeza.
-- **Resíduo:** Terra gerada a partir do componente de entrada.
-- **Pausa:** desligar o fogo ou remover o item interrompe; o calor residual cai, mas o estágio já atingido não regride.
+- **Controle:** bombear ar aumenta a potência da chama. A chama **decai continuamente**; o jogador deve manter a potência desejada com o fole.
+- **Estágios:** `Raw` (cru, o próprio primário) -> `Calcined` -> `Supercalcined` -> `Ash` (cinza).
+- **Progressão:** o componente avança conforme o tempo exposto à chama; chama mais forte acelera. Ao chegar ao estágio desejado, o jogador sela a chama.
+- **Resíduo:** 2 variações por componente:
+  - `calcinationResidueWeak` para chama fraca;
+  - `calcinationResidueStrong` para chama forte.
+- **Pausa:** desligar o fogo ou remover o item interrompe; o estágio atingido não regride.
 - **Feedback:** intensidade do fogo, cor, fumaça, som e medidor.
 
 ### 4.3 Sublimatio
@@ -98,8 +112,9 @@ Regras:
 - **Entrada:** item no aquecedor.
 - **Controle:** ligar/desligar o aquecedor; o tempo de aquecimento determina o estado do gás.
 - **Estados de gás:** `GasWeak`, `GasStable`, `GasUnstable`, lidos pela cor do vapor.
-- **Escolha:** usar o gás diretamente ou cristalizar. Usar o gás significa extrair um item físico no estado gasoso; cristalizar é binário e gera um item `Crystallized`.
-- **Cristal por estado:** cada estado de gás tem seu próprio componente de saída de cristalização.
+- **Gás físico:** o gás extraído é um componente único por **origem + estado** (ex.: gás de Enxofre no estado estável).
+- **Escolha:** usar o gás diretamente ou cristalizar. Cristalizar é binário.
+- **Cristal:** depende da **origem + estado do gás**, gerando um componente diferente por combinação.
 - **Ignorar:** o gás passa do ponto e vira um estado errado; não é o pedido.
 - **Pausa:** desligar o aquecedor ou remover o item interrompe.
 - **Feedback:** cor do vapor, som, vibração e mudança visual do componente.
@@ -107,15 +122,19 @@ Regras:
 ### 4.4 Terra
 
 - Terra é resíduo, não uma estação.
+- Dissolutio: 1 tipo de resíduo por componente; a quantidade muda com o estado.
+- Calcinatio: 2 variações por componente (chama fraca/forte).
+- Os resíduos ficam em extensões das bancadas de Dissolutio e Calcinatio, com o símbolo da Terra na própria extensão.
 - O resíduo é um item físico com componente próprio, tags próprias e uso potencial em outras receitas.
-- O resíduo de um processo errado também é um componente novo.
-- O jogador pode descartar/limpar resíduos que não querem manter.
+- O jogador pode descartar/limpar resíduos que não quer manter.
 
 ## 5. Tags e efeitos
 
+Os significados simbólicos dos primários (alma, espírito, corpo, emoções, força, crescimento, tempo etc.) são **lore/descrição** por enquanto. Eles não são tags mecânicas; servem para o jogador inferir a receita a partir da descrição do resultado.
+
 - `EffectTag` é um conjunto de flags (ex.: `Heat`, `Cold`, `Moist`, `Dry`, `Volatile`, `Pure`, `Corrosive`).
 - Cada `AlchemicalComponent` define suas tags. O estado/processo pode adicionar, remover ou alterar tags por meio do componente de saída.
-- Para o jogador, o material parece o mesmo transformado; para os dados, cada resultado é um novo `AlchemicalComponent` (ex.: `FerrumCalcinadoLeve`) com tags próprias.
+- Para o jogador, o material parece o mesmo transformado; para os dados, cada resultado é um novo `AlchemicalComponent` (ex.: `EnxofreCalcinado`) com tags próprias.
 - Exemplo de design: um componente que passa pouco tempo em Calcinatio vira outro componente, com aparência própria e tags específicas daquele estágio.
 - Receitas podem exigir:
   - componente exato;
@@ -260,6 +279,14 @@ FailureProfile
 - Componentes processados são objetos físicos; podem ser guardados em uma área/estante de produtos ou carregados na bandeja.
 - Sem hotbar, sem menu de itens, sem inventário abstrato.
 
+### 9.1 Nomes, hover e sockets
+
+- O nome do componente aparece apenas no hover/seleção, não o tempo todo.
+- O label 3D fica desabilitado até o item ser hover/selecionado.
+- Um **socket** é o slot físico de encaixe (por exemplo, os 6 sockets da bandeja). Quando o item está em um socket, o nome some.
+- Os labels persistentes das fileiras de estante e os textos das estações foram removidos.
+- As estações são identificadas por símbolos alquímicos nas paredes; a Terra fica em extensões das bancadas com o símbolo da Terra na própria extensão.
+
 ## 10. Efeitos no jogador
 
 - `PlayerEffectController` aplica efeitos temporários:
@@ -275,13 +302,17 @@ FailureProfile
 |---|---|
 | Dissolutio: giro total para progresso 1 | 360 graus |
 | Dissolutio: faixa ideal | 0,60–0,85 |
+| Dissolutio: tempo de permanência no estado | 1,5 s (placeholder) |
+| Dissolutio: extração | automática após o dwell |
 | Calcinatio: calor máximo | 100 |
 | Calcinatio: ganho por bombeada | 15 |
-| Calcinatio: aquecimento contínuo por segundo | 8 |
-| Calcinatio: decaimento com o fogo desligado | 8 |
+| Calcinatio: decaimento contínuo da chama | 8 por segundo |
+| Calcinatio: limite entre resíduo fraco/forte | 50% da potência |
+| Calcinatio: estágios incluem cru | sim |
 | Calcinatio: faixas de estágio | 0–30 cru, 30–55 calcinado, 55–80 supercalcinado, 80–100 cinza |
 | Sublimatio: tempo total de aquecimento | 20 s |
 | Sublimatio: faixas de gás | 0–5 fraco, 5–12 estável, 12–20 instável |
+| Sublimatio: cristal | origem + estado do gás |
 | Sublimatio: resfriamento | 8 s |
 | Tolerância de posição do sigilo | ~8 cm no espaço da mesa |
 | Confiança mínima do sigilo | 0,75 |
@@ -290,7 +321,7 @@ FailureProfile
 | Capacidade da bandeja | 6 slots |
 | Reposição de fileira | instantânea com VFX |
 
-Todos esses valores devem ficar em campos do Inspector ou em ScriptableObjects, não espalhados pelo código.
+Todos esses valores devem ficar em campos do Inspector ou em ScriptableObjects, não espalhados pelo código. Os números de dwell, decaimento e potência são placeholders até as duas cadeias de reações serem definidas.
 
 ## 12. Critérios de determinismo e teste
 
@@ -300,4 +331,8 @@ Todos esses valores devem ficar em campos do Inspector ou em ScriptableObjects, 
 - Testar desenho válido, desenho inválido, sigilo faltando, sigilo na âncora errada e símbolo principal incoerente.
 - Testar perfis de falha: consumo, bloqueio, limpeza, distorção e efeito no jogador.
 - Testar pausa/interrupção removendo o item ou desligando a fonte.
+- Testar o dwell da Dissolutio: parar no estado, aguardar, extração automática e quantidade de resíduo.
+- Testar os 2 resíduos da Calcinatio (chama fraca/forte) e a manutenção/decaimento da chama.
+- Testar a matriz da Sublimatio: origem + estado do gás → gás físico e cristal.
+- Testar o label no hover/seleção e o sumiço quando o item entra em um socket.
 - Testar persistência do Grimório entre sessões.

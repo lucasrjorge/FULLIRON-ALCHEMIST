@@ -12,10 +12,14 @@ namespace Fulliron.Alchemy
         [SerializeField] string description;
 
         [Header("Alquimia")]
-        [SerializeField] AlchemicalElement element = AlchemicalElement.None;
+        [SerializeField] bool primary;
         [SerializeField] ComponentState defaultState = ComponentState.Raw;
         [SerializeField] EffectTag tags = EffectTag.None;
-        [SerializeField] AlchemicalComponent residue;
+
+        [Header("Resíduos (Terra)")]
+        [SerializeField] AlchemicalComponent dissolutionResidue;
+        [SerializeField] AlchemicalComponent calcinationResidueWeak;
+        [SerializeField] AlchemicalComponent calcinationResidueStrong;
 
         [Header("Aparência")]
         [SerializeField] Color color = Color.white;
@@ -26,10 +30,12 @@ namespace Fulliron.Alchemy
         public string Id => id;
         public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? name : displayName;
         public string Description => description;
-        public AlchemicalElement Element => element;
+        public bool IsPrimary => primary;
         public ComponentState DefaultState => defaultState;
         public EffectTag Tags => tags;
-        public AlchemicalComponent Residue => residue;
+        public AlchemicalComponent DissolutionResidue => dissolutionResidue;
+        public AlchemicalComponent CalcinationResidueWeak => calcinationResidueWeak;
+        public AlchemicalComponent CalcinationResidueStrong => calcinationResidueStrong;
         public Color Tint => color;
         public Color EmissionColor => emissionColor;
         public float EmissionIntensity => emissionIntensity;

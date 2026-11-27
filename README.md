@@ -2,7 +2,7 @@
 
 Protótipo de jogo VR de alquimia para Meta Quest. O jogador interpreta um alquimista que descobre receitas por observação e experimentação: pega ingredientes físicos, passa por processos alquímicos em tempo real, desenha símbolos e sigilos, posiciona componentes e conjura reações. Erros não são apenas falhas: viram componentes novos, pistas e, às vezes, caos mágico que precisa ser cuidado.
 
-> **Status atual:** documentação de conceito, mecânicas, arquitetura e plano do protótipo; scripts da Fase 0+1 de núcleo, itens, estantes e bandeja. A cena, os prefabs e os assets de dados são montados pelo usuário no Unity seguindo `Docs/PHASE_0_1_GUIDE.md`. Este README e a pasta `Docs/` são a fonte de verdade para os próximos agentes e para a implementação.
+> **Status atual:** documentação de conceito, mecânicas, arquitetura e plano do protótipo; scripts da Fase 0+1 e uma fatia vertical de **Calcinatio + Mesa do Símbolo + Grimório** usando assets provisórios. Use `Fulliron > Prototype > Construir Fase 0+1` para reconstruir dados, materiais, prefab e cena. O guia de montagem/uso está em `Docs/PHASE_0_1_GUIDE.md`. Este README e a pasta `Docs/` são a fonte de verdade para os próximos agentes e para a implementação.
 
 ## Stack
 
@@ -53,7 +53,7 @@ Assets/
   Samples/                    # amostras dos pacotes XR; não alterar sem pedido
   VRTemplateAssets/           # assets do template; reutilizar com cuidado
   XR/ XRI/                    # configurações de XR e XR Interaction Toolkit
-  FullironAlchemist/          # scripts, dados, prefabs e cena do projeto
+  FullironAlchemist/          # scripts, editor, dados, prefabs, materiais e cena do projeto
 Docs/                         # documentação de design, mecânicas e arquitetura
 Packages/                     # manifesto de pacotes Unity
 ProjectSettings/              # configurações do projeto

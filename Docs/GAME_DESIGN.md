@@ -47,7 +47,7 @@ O laboratório do protótipo é um bloqueio (blockout) com primitivas, materiais
 |---|---|
 | Mesa do Símbolo | Desenhar símbolo e sigilos, posicionar componentes nas âncoras, usar a bandeja e conjurar. |
 | Mesa da Dissolução | Dissolutio: tubo, pistão, manivela e bandeja de resíduo. |
-| Mesa da Purificação | Calcinatio e Terra: grelha, fole/bomba de ar, botão de selar, fogo, medidor e resíduo. |
+| Mesa da Calcinatio | Calcinatio: grelha, fole, botão de selar, fogo, medidor e extensão de Terra. |
 | Mesa da Gaseificação | Sublimatio: aquecedor, câmara de gás, ventoinha, câmara de resfriamento e saídas. |
 | Estante 1 | Ingredientes-base com botão de reposição por fileira. |
 | Estante 2 | Outras fileiras de ingredientes-base e espaço de apoio para componentes processados. Reposição apenas das fileiras-base. |
@@ -56,13 +56,40 @@ O laboratório do protótipo é um bloqueio (blockout) com primitivas, materiais
 
 O layout deve permitir que o jogador veja e ouça as estações passivas enquanto trabalha em outra. Os alertas de processo usam som + luz + movimento.
 
+As paredes atrás das bancadas têm os símbolos alquímicos dos elementos. A Terra fica em uma extensão das bancadas de Dissolutio e Calcinatio, com o símbolo da Terra desenhado na própria extensão.
+
+## Apresentação dos componentes
+
+- O nome do componente aparece apenas no hover/seleção, não o tempo todo.
+- Quando o item está em um socket (slot físico de encaixe, como os da bandeja), o nome some.
+- Os nomes persistentes das fileiras de estante e os textos das estações foram removidos.
+- A identificação das estações é feita pelos símbolos alquímicos nas paredes.
+
+## Componentes primários
+
+O jogo completo tem 10 componentes primários:
+
+- Enxofre: alma e inflamabilidade.
+- Mercúrio: espírito e volatilidade.
+- Sal: corpo físico e estabilidade.
+- Orvalho: meio líquido puro para banhar e umedecer misturas.
+- Ouro: perfeição e pureza.
+- Prata: pureza receptiva.
+- Cobre: emoções.
+- Ferro: força, ação e coragem.
+- Estanho: crescimento e expansão.
+- Chumbo: peso, densidade e tempo.
+
+O protótipo usa um subconjunto: **Enxofre, Mercúrio, Sal, Orvalho e Ferro**. As duas cadeias de reações ainda serão definidas pelo arquiteto.
+
 ## Componentes e recursos
 
+- **Elementos não são componentes:** `Aqua`, `Ignis`, `Terra` e `Aer` são processos/símbolos. `Orvalho` é o líquido puro, não o elemento `Aqua`.
+- **Lore:** os significados dos primários são descrição por enquanto; ajudam o jogador a inferir a receita, mas não entram como tags mecânicas.
 - **Ingredientes-base:** ficam em fileiras de estante. Cada fileira tem um botão que materializa o estoque daquela fileira. O jogador pega o item físico.
-- **Elementos como componentes:** os próprios elementos (Aqua, Ignis, Terra, Aer) também podem existir como componentes físicos e ser usados em reações.
 - **Componentes processados:** são objetos físicos novos, com aparência, estado e tags próprias. Não voltam ao estado anterior.
-- **Bandeja da Mesa do Símbolo:** inventário físico com slots para carregar vários componentes de uma vez. Não é menu.
-- **Resíduos (Terra):** resultado de Calcinatio e Dissolutio; variam conforme o componente de entrada.
+- **Bandeja da Mesa do Símbolo:** inventário físico com sockets para carregar vários componentes de uma vez. Não é menu.
+- **Resíduos (Terra):** resultado de Calcinatio e Dissolutio; variam conforme o componente e o grau do processo. Ficam nas extensões de Terra das bancadas.
 - **Capacidade e reposição:** valores de protótipo, ajustáveis. A reposição é manual por fileira, não automática por tempo.
 - **Sem hotbar, sem menu de itens, sem inventário abstrato.**
 
@@ -72,35 +99,42 @@ Todos os processos funcionam em **tempo real + pressão**. Alguns são ativos (o
 
 ### Dissolutio (Água)
 
-- O jogador coloca o componente no tubo e gira a manivela; um pistão empurra o componente para baixo e o filtra.
-- **Menos giro = incompleto.** **Mais giro = superdissolvido.** Ambos são componentes novos, com aparência e tags próprias.
-- O resíduo Terra depende do componente de entrada.
-- Matéria-prima: componente físico + operação da manivela.
+- O jogador coloca o componente no tubo; a manivela controla a descida e o grau de filtragem.
+- 3 estados: **Incompleto, Dissolvido, Superdissolvido**. Cada estado é um componente novo derivado do original.
+- O jogador para no estado desejado por alguns instantes; a máquina conclui e extrai o componente automaticamente para a bancada. Não precisa manter a manivela segurada durante a espera.
+- Resíduo: **1 tipo por componente**; o que muda entre os estados é a **quantidade**.
+- A extensão de Terra da bancada recebe o resíduo e tem o símbolo da Terra.
 - Feedback: pistão descendo, líquido, som, cor e mudança de estado.
 
 ### Calcinatio (Fogo)
 
-- O jogador bombeia ar para aumentar o calor; o componente fica sobre uma grelha.
-- Estágios visíveis: **cru -> calcinado -> supercalcinado -> cinza**. Cada estágio é um componente.
-- Para não passar do ponto, o jogador sela a chama no momento certo. Enquanto o fogo estiver aceso, o componente continua aquecendo; se ignorar, ele passa do ponto.
-- O resíduo Terra depende do componente de entrada.
+- O componente fica sobre a grelha. Bombear ar aumenta a potência da chama; a chama **decai continuamente**.
+- 4 estágios, incluindo o estado cru: **cru, calcinado, supercalcinado, cinza**. Cada estágio é um componente.
+- O jogador mantém a chama na potência desejada por um tempo para o componente chegar ao estado desejado; chama mais forte acelera.
+- O jogador sela a chama para parar no estágio desejado.
+- Resíduo: **2 variações por componente**, uma de chama fraca e outra de chama forte, com nome/aparência única. Fica na extensão de Terra.
 - Feedback: intensidade do fogo, cor do componente, fumaça, som, medidor de calor.
 
 ### Sublimatio (Ar)
 
 - O jogador coloca o componente em um aquecedor potente (ou pelicano) para transformá-lo em gás.
-- O tempo de aquecimento importa: o gás pode sair em **3 estados**, lidos pela cor do vapor.
-- Depois, o jogador escolhe entre **usar o gás diretamente** ou **cristalizar**. O gás extraído é um item físico; a cristalização é binária e gera outro item físico, e estados diferentes de gás geram cristais diferentes.
-- Se ignorar, o gás passa do ponto e vira um estado que não era o pedido.
+- O tempo de aquecimento importa: o componente pode liberar **3 gases de cores diferentes**, dependendo do tempo aquecido.
+- O gás extraído é um componente físico único por **origem + estado**.
+- O jogador pode extrair o gás diretamente ou abrir a ventoinha para cristalizar. A cristalização é binária e gera outro componente físico.
+- O cristal depende da **origem e do estado do gás**, gerando um componente diferente por combinação.
 - Feedback: cor do vapor, som, vibração e mudança visual do componente.
 
 ### Terra (resíduos)
 
 - Terra não é uma estação separada; é o resíduo de Calcinatio e Dissolutio.
+- Dissolutio gera 1 tipo de resíduo por componente; a quantidade varia com o estado.
+- Calcinatio gera 2 variações por componente (chama fraca/forte).
+- Os resíduos ficam em extensões das bancadas, com o símbolo da Terra na própria extensão.
 - O resíduo é um componente físico que pode ser usado em outras receitas ou descartado/limpo.
-- O resíduo de um processo errado também é um componente novo, não um “erro” invisível.
 
 ## Tags e estados
+
+Os significados dos 10 primários (alma, espírito, corpo, emoções, força, crescimento, tempo etc.) são **lore/descrição** por enquanto. Eles não entram no resolvedor como tags ou princípios mecânicos; servem para o jogador inferir componentes a partir da descrição do resultado final.
 
 Cada componente possui tags de efeito. As tags podem ser atribuídas/alteradas conforme o estado e o processo:
 
