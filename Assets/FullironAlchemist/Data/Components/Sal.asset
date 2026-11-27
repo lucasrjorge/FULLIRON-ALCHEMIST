@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89d63b467bba1d248a2195571547a1c8, type: 3}
+  m_Name: Sal
+  m_EditorClassIdentifier: Assembly-CSharp::Fulliron.Alchemy.AlchemicalComponent
+  id: salt
+  displayName: Sal
+  description: "Representa o corpo f\xEDsico e a estabilidade."
+  primary: 1
+  defaultState: 0
+  tags: 40
+  dissolutionResidue: {fileID: 11400000, guid: eb457b9e98078614dbbd277c3386d761, type: 2}
+  calcinationResidueWeak: {fileID: 11400000, guid: 09b176fda1a1aec4caadd15a597b6438, type: 2}
+  calcinationResidueStrong: {fileID: 11400000, guid: 19631f4efccb3f14b9c497faf7b00996, type: 2}
+  color: {r: 0.9098039, g: 0.9098039, b: 0.9098039, a: 1}
+  emissionColor: {r: 0, g: 0, b: 0, a: 1}
+  emissionIntensity: 0

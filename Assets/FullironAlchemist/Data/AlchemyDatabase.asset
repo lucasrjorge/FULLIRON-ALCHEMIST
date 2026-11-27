@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c897dad199ffc3498bc509ab722b883, type: 3}
+  m_Name: AlchemyDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::Fulliron.Alchemy.AlchemyDatabase
+  components:
+  - {fileID: 11400000, guid: d80784daf9a859e468de45e69b6450c6, type: 2}
+  - {fileID: 11400000, guid: 4ef8efcf6393e1b43812bf1760666024, type: 2}
+  - {fileID: 11400000, guid: 110840234694b0249bc679fd4cd3fad5, type: 2}
+  - {fileID: 11400000, guid: d5520e23a7d61344382dae1846683b42, type: 2}
+  - {fileID: 11400000, guid: 0eab1a14d4bdea04e81e5616b72a896e, type: 2}
+  - {fileID: 11400000, guid: 04fe0f30b06f6954090a996360453b10, type: 2}
+  - {fileID: 11400000, guid: eb457b9e98078614dbbd277c3386d761, type: 2}
+  - {fileID: 11400000, guid: 09b176fda1a1aec4caadd15a597b6438, type: 2}
+  - {fileID: 11400000, guid: 19631f4efccb3f14b9c497faf7b00996, type: 2}
+  - {fileID: 11400000, guid: b525c28791af4b44eaec67fa1d7e4a42, type: 2}
+  - {fileID: 11400000, guid: beb87a5627abaeb46853607ef9f26079, type: 2}
+  - {fileID: 11400000, guid: 717457c0650b4df48ac16622620f454c, type: 2}
+  - {fileID: 11400000, guid: 6a9402b7fc3a3ce4daa2f843336fb8e3, type: 2}
+  - {fileID: 11400000, guid: 56ea94172bedf704a97b407c2c34e4eb, type: 2}
+  - {fileID: 11400000, guid: b74fd516c2a042047ae3b8901c1b7fe0, type: 2}
+  - {fileID: 11400000, guid: 7595954bc27e2db4f8297016a1e89acc, type: 2}
+  - {fileID: 11400000, guid: b3e1d97790782d042b294297dcc88c31, type: 2}
+  - {fileID: 11400000, guid: 47b4ecfe775799244823bb3b2453edfe, type: 2}
+  - {fileID: 11400000, guid: 166c7e5c11c4c5d4fa52bc77529f3e83, type: 2}
+  - {fileID: 11400000, guid: 2af3085bbf46b174ca0ecb5c6cfe50bc, type: 2}
+  - {fileID: 11400000, guid: a606e8bc06552de4ab9153a17342bda4, type: 2}
+  - {fileID: 11400000, guid: 63427a95d22946e48a036d1b8048e116, type: 2}
+  - {fileID: 11400000, guid: 0f9241cc48f54eb4eafd085cdc164e15, type: 2}
+  - {fileID: 11400000, guid: 0cb111c108abcf44a9c377a345903e1c, type: 2}
+  - {fileID: 11400000, guid: ca2f0df2f99e54e4fae6df20d06eaa07, type: 2}
+  - {fileID: 11400000, guid: 723b6ed7b5c3bee48a2583a79acf362a, type: 2}
+  - {fileID: 11400000, guid: 1dd9530d5c840034c96f43a229595b2b, type: 2}
+  - {fileID: 11400000, guid: 23d3b7b671f8b8c4281c15cdc86fe8f3, type: 2}
+  - {fileID: 11400000, guid: e5c72ed936161564fbb651f472c45f7c, type: 2}
+  - {fileID: 11400000, guid: 1d78ed2718b392c47b8f497a94cfa959, type: 2}
+  - {fileID: 11400000, guid: 47ef7f1a52367334ab8effd1a60c8c3b, type: 2}
+  - {fileID: 11400000, guid: b1c5b3d2f6ad6f24382748c59fb82844, type: 2}
+  - {fileID: 11400000, guid: b57d3e50ed7391c459e138cbee8aa2e4, type: 2}
+  processingProfiles:
+  - {fileID: 11400000, guid: d54f81d03465df840b64c6a63832ec9f, type: 2}
+  reactionRecipes:
+  - {fileID: 11400000, guid: dee878c274c02d2439667cde1d236eeb, type: 2}

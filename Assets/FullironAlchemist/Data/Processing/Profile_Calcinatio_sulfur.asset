@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 118d64e52456f9b4489076cf239c7617, type: 3}
+  m_Name: Profile_Calcinatio_sulfur
+  m_EditorClassIdentifier: Assembly-CSharp::Fulliron.Alchemy.ProcessingProfile
+  input: {fileID: 11400000, guid: 7595954bc27e2db4f8297016a1e89acc, type: 2}
+  anyInputState: 1
+  inputState: 0
+  process: 2
+  outcomes:
+  - minProgress: 0
+    maxProgress: 0.15
+    output: {fileID: 11400000, guid: 7595954bc27e2db4f8297016a1e89acc, type: 2}
+    outputState: 0
+    residueAmount: 0
+    message: Ainda cru.
+  - minProgress: 0.15
+    maxProgress: 0.45
+    output: {fileID: 11400000, guid: ca2f0df2f99e54e4fae6df20d06eaa07, type: 2}
+    outputState: 4
+    residueAmount: 1
+    message: Calcinado.
+  - minProgress: 0.45
+    maxProgress: 0.75
+    output: {fileID: 11400000, guid: 723b6ed7b5c3bee48a2583a79acf362a, type: 2}
+    outputState: 5
+    residueAmount: 1
+    message: Supercalcinado.
+  - minProgress: 0.75
+    maxProgress: 1
+    output: {fileID: 11400000, guid: 1dd9530d5c840034c96f43a229595b2b, type: 2}
+    outputState: 6
+    residueAmount: 1
+    message: Cinza.
+  interruptOutcome:
+    minProgress: 0
+    maxProgress: 1
+    output: {fileID: 0}
+    outputState: 0
+    residueAmount: 1
+    message: 
