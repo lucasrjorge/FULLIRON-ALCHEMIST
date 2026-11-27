@@ -404,6 +404,17 @@ button {
   background: linear-gradient(180deg, rgba(240, 211, 138, 0.42), rgba(176, 141, 87, 0.24));
 }
 
+.btn.danger {
+  border-color: rgba(207, 99, 80, 0.42);
+  color: #f0b0a5;
+}
+
+.btn.danger:hover {
+  border-color: var(--danger);
+  background: rgba(207, 99, 80, 0.14);
+  color: #ffc3b8;
+}
+
 .btn.ghost {
   background: transparent;
 }
@@ -701,6 +712,17 @@ button {
   border-color: var(--gold);
   color: var(--gold-bright);
   background: rgba(217, 180, 90, 0.12);
+}
+
+.sel-actions button.discard {
+  border-color: rgba(207, 99, 80, 0.42);
+  color: #f0b0a5;
+}
+
+.sel-actions button.discard:hover {
+  border-color: var(--danger);
+  color: #ffc3b8;
+  background: rgba(207, 99, 80, 0.14);
 }
 
 .sel-clear {

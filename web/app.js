@@ -1032,6 +1032,20 @@ function clearSelection(skipUI = false) {
   updateHint();
 }
 
+function discardItem(item) {
+  if (!item) return;
+  const label = componentLabel(item);
+  if (item.location.type === "socket" && item.location.socketId === "calc") {
+    calc.tracked = null;
+    calc.exposure = 0;
+    calc.finished = false;
+    calcFeedback = "Cadinho vazio. Coloque outro componente.";
+  }
+  log(`Descartado: ${label}.`);
+  removeItem(item);
+  updateUI();
+}
+
 function restockShelfRow(rowIndex) {
   const row = shelfRows[rowIndex];
   if (!row) return;
@@ -1418,8 +1432,11 @@ function renderStationPanel() {
         <button class="btn primary full" data-hold="pump" data-action="pump">BOMBEAR</button>
         <button class="btn full" data-action="seal">SELAR</button>
       </div>
+      <div class="btn-row">
+        <button class="btn danger full" data-action="discard" ${item ? "" : "disabled"}>DESCARTAR COMPONENTE</button>
+      </div>
       <div class="feedback-box" id="calcFeedback">${calcFeedback}</div>
-      <div class="panel-foot">Estágios: Cru → Calcinado → Supercalcinado → Cinza.<br>Chama forte gera resíduo forte de Terra.</div>
+      <div class="panel-foot">Estágios: Cru → Calcinado → Supercalcinado → Cinza.<br>Chama forte gera resíduo forte de Terra. Use DESCARTAR para remover o componente do cadinho.</div>
     `;
     updateCalcPanel();
     return;
@@ -1511,7 +1528,8 @@ function renderSelectionBar() {
     ["ignis", "Ignis"],
     ["terra", "Terra"],
     ["aer", "Aer"]
-  ].map(([target, label]) => `<button data-action="place" data-target="${target}">${label}</button>`).join("");
+  ].map(([target, label]) => `<button data-action="place" data-target="${target}">${label}</button>`).join("") +
+    `<button class="discard" data-action="discard" title="Remove o item do laboratório">Descartar</button>`;
 }
 
 function updateUI() {
@@ -1988,6 +2006,8 @@ $("stationBody").addEventListener("click", (event) => {
     restockShelfRow(Number(button.dataset.row));
   } else if (action === "place") {
     if (selectedItem) placeItem(selectedItem, button.dataset.target);
+  } else if (action === "discard") {
+    discardItem(socketOccupant.calc);
   }
 });
 
@@ -2010,9 +2030,10 @@ window.addEventListener("pointercancel", () => {
 });
 
 $("selectionBar").addEventListener("click", (event) => {
-  const button = event.target.closest("[data-action=\"place\"]");
+  const button = event.target.closest("[data-action]");
   if (!button || !selectedItem) return;
-  placeItem(selectedItem, button.dataset.target);
+  if (button.dataset.action === "place") placeItem(selectedItem, button.dataset.target);
+  else if (button.dataset.action === "discard") discardItem(selectedItem);
 });
 
 $("selClear").addEventListener("click", () => clearSelection());
